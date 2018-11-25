@@ -17,7 +17,7 @@ export const _handleTabVisibility = (cityName) => {
 export const _weatherDataSuccess = (responseData) => {
     let data = _calculateWeatherValue(responseData);
     let resultData = {payload: data};
-    
+
     if(data.name === APP_CONSTANT.CITY_NAMES.AMASTERDAM){
         resultData.type = APP_CONSTANT.ACTION_CITY_DATA.AMASTERDAM_DATA;
     }
@@ -27,6 +27,6 @@ export const _weatherDataSuccess = (responseData) => {
     else if(data.name === APP_CONSTANT.CITY_NAMES.LONDON){
         resultData.type = APP_CONSTANT.ACTION_CITY_DATA.LONDON_DATA; 
     }
-    console.log("rtrn data:",resultData);
+    //console.log("rtrn data:",resultData);
     return resultData;
 };

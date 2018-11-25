@@ -1,9 +1,10 @@
 import React from 'react';
 import APP_CONSTANT from '../WEATHER_APP_CONSTANT';
+import '../css/customGauge.css';
 
 class CityWeatherData extends React.Component {
 
-    componentDidMount(){
+  componentDidMount(){
       this._getDataFromApi();
       setInterval(() => this._getDataFromApi(),APP_CONSTANT.API_CALL_INTERVAL);
     }
@@ -21,12 +22,14 @@ class CityWeatherData extends React.Component {
     }
 
     render() {
+        let divStyle = {
+          backgroundImage: `linear-gradient(white ${this.props.cityWeatherData.value}%,green 30%,yellow 75%,red 90%)`,
+        };
+
         return (
-          <div >
-            {this.props.cityWeatherData && this.props.cityWeatherData.name}
-            <br />
-            {this.props.cityWeatherData && this.props.cityWeatherData.value}
-            {console.log("Re-rendered:",this.props.cityName)}
+          <div>
+            <div className="container" style = {divStyle}></div>
+            <div>{this.props.cityWeatherData.name}</div>
           </div>
         );
       }

@@ -15,6 +15,10 @@
   font-size: 17px;
 }
 
+.tab button:hover {
+  background-color: #ddd;
+}
+
 .tabcontent {
   display: none;
   padding: 6px 12px;
