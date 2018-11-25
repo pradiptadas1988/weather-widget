@@ -1,32 +1,14 @@
 import APP_CONSTANT from '../WEATHER_APP_CONSTANT';
 
-export const createUrl = (cityName,countryCode) => {
-    return `${APP_CONSTANT.BASE_URL}${cityName},${countryCode}&units=metric&APPID=${APP_CONSTANT.API_KEY}`;
-}
-
-export const _handleTabVisibility = (cityName) => {
-    let i, tabcontent;
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    }
-    document.getElementById(cityName).style.display = "block";
-}
-
-export const _weatherDataSuccess = (responseData) => {
-    let data = _calculateWeatValue(responseData);
-    let resultData = {payload: data};
-    if(data.name === APP_CONSTANT.CITY_NAMES.AMASTERDAM){
-        resultData.type = APP_CONSTANT.ACTION_CITY_DATA.AMASTERDAM_DATA;
-    }
-    else if(data.name === APP_CONSTANT.CITY_NAMES.MOSCOW){
-        resultData.type = APP_CONSTANT.ACTION_CITY_DATA.MOSCOW_DATA; 
-    }
-    else if(data.name === APP_CONSTANT.CITY_NAMES.LONDON){
-        resultData.type = APP_CONSTANT.ACTION_CITY_DATA.LONDON_DATA; 
-    }
-    console.log("rtrn data:",resultData);
-    return resultData;
+export const _calculateWeatherValue = (responseData) => {
+    let finalWeatherValue = 0;
+    finalWeatherValue = finalWeatherValue + _getValueForWindSpeed(responseData.list) + _getValueForTemparature(responseData.list);
+    finalWeatherValue = finalWeatherValue + _getValueForPressure(responseData.list);
+    console.log("wind, temp, press:",_getValueForWindSpeed(responseData.list),_getValueForTemparature(responseData.list),_getValueForPressure(responseData.list));
+    return {
+        value: finalWeatherValue,
+        name: responseData.city.name
+    };
 };
 
 const _getFinalData = (avg, min, max, weight) =>{
@@ -46,15 +28,6 @@ const _getAverageValue = (dataArray) =>{
     return totalValue / dataArray.length;
 }
 
-const _calculateWeatValue = (responseData) => {
-    let finalWeatherValue = 0;
-    finalWeatherValue = finalWeatherValue + _getValueForWindSpeed(responseData.list) + _getValueForTemparature(responseData.list);
-    return {
-        value: finalWeatherValue,
-        name: responseData.city.name
-    };
-};
-
 const _getValueForWindSpeed = (listData) => {
     let allWindData = [];
     for(let i = 0;i < listData.length; i++){
@@ -72,3 +45,12 @@ const _getValueForTemparature = (listData) => {
     return _getFinalData(_getAverageValue(allTempData), APP_CONSTANT.WEATHER_PARAM_VALUES.TEMP_MIN,
          APP_CONSTANT.WEATHER_PARAM_VALUES.TEMP_MAX, APP_CONSTANT.WEATHER_CALCULATION_WEIGHT.TEMPARATURE_WEIGHT);
 };
+
+const _getValueForPressure = (listData) => {
+    let allPressureData = [];
+    for(let i = 0;i < listData.length; i++){
+        allPressureData.push(listData[i].main.pressure);
+    }
+    return _getFinalData(_getAverageValue(allPressureData), APP_CONSTANT.WEATHER_PARAM_VALUES.PRESSURE_MIN,
+         APP_CONSTANT.WEATHER_PARAM_VALUES.PRESSURE_MAX, APP_CONSTANT.WEATHER_CALCULATION_WEIGHT.PRESSURE_WEIGHT);
+}

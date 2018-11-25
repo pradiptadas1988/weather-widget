@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {createUrl, _weatherDataSuccess} from '../utils/calculateWeatherValue';
+import {createUrl, _weatherDataSuccess} from '../utils/weatherWidgetUtil';
 
 export const getWeatherData = (cityName,countryCode) => {
     return (dispatch) => {

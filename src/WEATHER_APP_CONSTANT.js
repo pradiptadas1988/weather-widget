@@ -16,13 +16,16 @@ const APP_CONSTANT = {
     },
     WEATHER_CALCULATION_WEIGHT : {
         WIND_SPEED_WEIGHT : 30,
-        TEMPARATURE_WEIGHT : 40
+        TEMPARATURE_WEIGHT : 40,
+        PRESSURE_WEIGHT : 10
     },
     WEATHER_PARAM_VALUES : {
         WIND_SPEED_MAX : 8,
         WIND_SPEED_MIN : 2,
         TEMP_MAX : 15,
-        TEMP_MIN : 0,
+        TEMP_MIN : -5,
+        PRESSURE_MAX : 1200,
+        PRESSURE_MIN : 900
     },
     BASE_URL: 'http://api.openweathermap.org/data/2.5/forecast?q=',
     API_KEY : '38cffa4e02fcc6aa12d750a37dbb822c',

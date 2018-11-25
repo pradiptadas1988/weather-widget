@@ -5,7 +5,7 @@ import * as actions from '../actions/callWeatherApi';
 import CityWeatherData from './CityWeatherData';
 import '../css/App.css';
 import APP_CONSTANT from '../WEATHER_APP_CONSTANT';
-import {_handleTabVisibility} from '../utils/calculateWeatherValue';
+import {_handleTabVisibility} from '../utils/weatherWidgetUtil';
 
 class App extends React.Component {
 
