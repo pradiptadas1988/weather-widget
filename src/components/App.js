@@ -11,6 +11,7 @@ class App extends React.Component {
 
   constructor(props){
     super(props);
+    this.tabRef = React.createRef();
     this.state = {
       secondTabVisble: false,
       thridTabVisble: false
@@ -18,7 +19,7 @@ class App extends React.Component {
   }
 
   componentDidMount(){
-    document.getElementById("defaultOpen").click();
+    this.tabRef.current.click();
   }
 
   _handleClick(cityName) {
@@ -36,7 +37,8 @@ class App extends React.Component {
     return (
       <div>
           <div className="tab">
-            <button id = "defaultOpen" onClick={() => this._handleClick(APP_CONSTANT.CITY_NAMES.AMASTERDAM)}>{APP_CONSTANT.CITY_NAMES.AMASTERDAM}</button>
+            <button id = "defaultOpen"  ref = {this.tabRef} 
+              onClick={() => this._handleClick(APP_CONSTANT.CITY_NAMES.AMASTERDAM)}>{APP_CONSTANT.CITY_NAMES.AMASTERDAM} </button>
             <button onClick={() => this._handleClick(APP_CONSTANT.CITY_NAMES.MOSCOW)}>{APP_CONSTANT.CITY_NAMES.MOSCOW}</button>
             <button onClick={() => this._handleClick(APP_CONSTANT.CITY_NAMES.LONDON)}>{APP_CONSTANT.CITY_NAMES.LONDON}</button>
           </div>
