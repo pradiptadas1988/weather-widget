@@ -4,7 +4,7 @@ import '../css/customGauge.css';
 
 class CityWeatherData extends React.Component {
 
-  componentDidMount(){
+    componentDidMount(){
       this._getDataFromApi();
       setInterval(() => this._getDataFromApi(),APP_CONSTANT.API_CALL_INTERVAL);
     }

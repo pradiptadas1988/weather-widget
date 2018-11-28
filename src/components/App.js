@@ -13,49 +13,46 @@ class App extends React.Component {
     super(props);
     this.tabRef = React.createRef();
     this.state = {
-      secondTabVisble: false,
-      thridTabVisble: false
+      tabVisibility:[],
     };
   }
 
   componentDidMount(){
     this.tabRef.current.click();
+    let tempVisibilityArray =  APP_CONSTANT.CITY_DETAILS.map((value) => (value.tabVisibility));
+    this.setState({tabVisibility : tempVisibilityArray});
   }
 
-  _handleClick(cityName) {
+  _handleClick(cityName,index) {
     _handleTabVisibility(cityName);
-
-    if(cityName === APP_CONSTANT.CITY_NAMES.MOSCOW && this.state.secondTabVisble === false){
-      this.setState({ secondTabVisble:true });
-    }
-    else if(cityName === APP_CONSTANT.CITY_NAMES.LONDON && this.state.thridTabVisble === false){
-      this.setState({ thridTabVisble:true });
-    }
+    let newTabVisibility = this.state.tabVisibility;
+    newTabVisibility[index] = true;
+    this.setState({tabVisibility : newTabVisibility});
   }
 
   render() {
+    const allCityButton = APP_CONSTANT.CITY_DETAILS.map((value, index) => {
+      if(index===0){
+        return(<button ref = {this.tabRef} key={index} onClick={() => this._handleClick(value.city,index)}>{value.city} </button>);
+      }
+      else{
+        return(<button key={index} onClick={() => this._handleClick(value.city,index)}>{value.city} </button>);
+      }
+    });
+
+    const allCityTab = APP_CONSTANT.CITY_DETAILS.map((value, index) => (
+      <div id = {value.city} className="tabcontent" key={index}>
+          {this.state.tabVisibility[index] && <CityWeatherData cityName = {value.city} countryCode = {value.country_code}
+              cityWeatherData = {this.props.amsterdamWeathers} getWeather={this.props.actions.getWeatherData}/>}
+      </div>
+    ));
+
     return (
       <div>
           <div className="tab">
-            <button id = "defaultOpen"  ref = {this.tabRef} 
-              onClick={() => this._handleClick(APP_CONSTANT.CITY_NAMES.AMASTERDAM)}>{APP_CONSTANT.CITY_NAMES.AMASTERDAM} </button>
-            <button onClick={() => this._handleClick(APP_CONSTANT.CITY_NAMES.MOSCOW)}>{APP_CONSTANT.CITY_NAMES.MOSCOW}</button>
-            <button onClick={() => this._handleClick(APP_CONSTANT.CITY_NAMES.LONDON)}>{APP_CONSTANT.CITY_NAMES.LONDON}</button>
+            {allCityButton}
           </div>
-          <div id = {APP_CONSTANT.CITY_NAMES.AMASTERDAM} className="tabcontent">
-            <CityWeatherData cityName = {APP_CONSTANT.CITY_NAMES.AMASTERDAM} countryCode = {APP_CONSTANT.COUNTRY_CODE.NETHERLANDS}
-                  cityWeatherData = {this.props.amsterdamWeathers} getWeather={this.props.actions.getWeatherData}/>
-          </div>
-
-          <div id = {APP_CONSTANT.CITY_NAMES.MOSCOW} className="tabcontent">
-            {this.state.secondTabVisble && <CityWeatherData cityName = {APP_CONSTANT.CITY_NAMES.MOSCOW} countryCode = {APP_CONSTANT.COUNTRY_CODE.RUSSIA} 
-                cityWeatherData = {this.props.moscowWeathers} getWeather={this.props.actions.getWeatherData}/>}
-          </div>
-
-          <div id = {APP_CONSTANT.CITY_NAMES.LONDON} className="tabcontent">
-            {this.state.thridTabVisble && <CityWeatherData cityName = {APP_CONSTANT.CITY_NAMES.LONDON} countryCode = {APP_CONSTANT.COUNTRY_CODE.UNITED_KINGDOM}
-                cityWeatherData = {this.props.londonWeathers} getWeather={this.props.actions.getWeatherData}/>}
-          </div>
+          {allCityTab}
       </div>
     );
   }
@@ -65,7 +62,7 @@ const mapStateToProps = (state) => {
   return {
     amsterdamWeathers: state.weatherReducer.amsterdamWeathers,
     moscowWeathers: state.weatherReducer.moscowWeathers,
-    londonWeathers: state.weatherReducer.londonWeathers,
+    londonWeathers: state.weatherReducer.londonWeathers
   }
 };
 

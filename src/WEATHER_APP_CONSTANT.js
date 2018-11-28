@@ -1,19 +1,29 @@
 const APP_CONSTANT = {
     ACTION_CITY_DATA : {
-        AMASTERDAM_DATA : 'AMASTERDAM_DATA',
-        MOSCOW_DATA : 'MOSCOW_DATA',
-        LONDON_DATA : 'LONDON_DATA'
+        AMASTERDAM_DATA : 'Amsterdam',
+        MOSCOW_DATA : 'Moscow',
+        LONDON_DATA : 'London'
     },
-    CITY_NAMES : {
-        AMASTERDAM : 'Amsterdam',
-        MOSCOW : 'Moscow',
-        LONDON : 'London'
-    },
-    COUNTRY_CODE : {
-        NETHERLANDS : 'nl',
-        RUSSIA : 'ru',
-        UNITED_KINGDOM : 'uk',
-    },
+    CITY_DETAILS : [
+        {
+            city : 'Amsterdam',
+            country_code : 'nl',
+            city_weather : 'amsterdamWeathers',
+            tabVisibility : true
+        },
+        {
+            city : 'Moscow',
+            country_code : 'ru',
+            city_weather : 'moscowWeathers',
+            tabVisibility : false
+        },
+        {
+            city : 'London',
+            country_code : 'uk',
+            city_weather : 'londonWeathers',
+            tabVisibility : false
+        }
+    ],
     WEATHER_CALCULATION_WEIGHT : {
         WIND_SPEED_WEIGHT : 30,
         TEMPARATURE_WEIGHT : 40,
@@ -30,6 +40,7 @@ const APP_CONSTANT = {
         HUMIDITY_MAX : 100,
         HUMIDITY_MIN : 70
     },
+    ACTION_TYPE_DATA : 'WEATHER_DATA',
     BASE_URL: 'http://api.openweathermap.org/data/2.5/forecast?q=',
     API_KEY : '38cffa4e02fcc6aa12d750a37dbb822c',
     API_CALL_INTERVAL: 600000
